@@ -19,7 +19,7 @@ You can link this directly at:-
 
 ## Knockout JS
 Knockout is a web client side MVVM pattern library. Read about it here:-
-[http://knockoutjs.com/] (http://knockoutjs.com/)
+[http://knockoutjs.com/](http://knockoutjs.com/)
 
 ## jQuery
 jQuery does not really need me to introduce it! It is used here to download and interrogate an XML
