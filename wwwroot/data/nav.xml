@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<menus >
+  <menu id="main">
+    <menuitem>
+      <name>Simple Documentation Home</name>
+      <url>index.html</url>
+    </menuitem>
+    <menuitem>
+      <name>Section 1</name>
+      <url>index.html#section1</url>
+    </menuitem>
+    <menuitem>
+      <name>Section 2</name>
+      <url>index.html#section2</url>
+    </menuitem>
+    <menuitem>
+      <name>Help</name>
+      <menuitem>
+        <name>About</name>
+        <url>index.html#helpAbout</url>
+      </menuitem>
+      <menuitem>
+        <name>Contact</name>
+        <url>index.html#helpContact</url>
+      </menuitem>
+      <menuitem>
+        <name>Resources</name>
+        <menuitem>
+          <name>Knockout</name>
+          <url>http://knockoutjs.com/</url>
+          <target>_blank</target>
+        </menuitem>
+        <menuitem >
+          <name>W3 CSS</name>
+          <url>https://www.w3schools.com/w3css</url>
+          <target>_blank</target>
+        </menuitem>
+        
+      </menuitem>
+
+    </menuitem>
+  </menu>
+
+
+</menus>

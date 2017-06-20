@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="//www.w3schools.com/w3css/4/w3.css">
+
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>navControl - How It Works</title>
+
+    <script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+    <script src="//ajax.aspnetcdn.com/ajax/knockout/knockout-3.4.2.js"></script>
+    <script src="scripts/navControl.js"></script>
+
+    <script type="text/javascript">
+        function toggleNav() {
+            var $navSmall = $("#navSmall"); var sClass = "w3-show";
+            if ($navSmall.hasClass(sClass)) {
+                $navSmall.removeClass(sClass);
+            } else {
+                $navSmall.addClass(sClass);
+            }
+        }
+
+     
+
+
+        
+
+    </script>
+
+</head>
+<body>
+    <div id="topNav">
+        <div class=" w3-bar w3-black w3-card-2">
+            <!-- ko foreach:items -->
+            <!-- ko if: $data.items-->
+            <div class="w3-dropdown-hover">
+                <button class="w3-button" data-bind="text: name ">parent item name</button>
+                <div class="w3-dropdown-content w3-bar-block w3-card-4" data-bind="foreach: $data.items">
+                    <a class="w3-bar-item w3-button" data-bind="attr: {href: url || '#', title: name}, text:name"></a>
+                </div>
+            </div>
+            <!-- /ko -->
+            <!-- ko ifnot: $data.items -->
+            <a class="w3-bar-item w3-button" data-bind="attr: {href: url || '#', title: name}"><span data-bind="text: name">Menu Name</span></a>
+            <!-- /ko -->
+            <!-- /ko -->
+            <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="toggleNav()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+
+        </div>
+        <div id="navSmall" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
+            <!-- ko foreach:items -->
+            <a class="w3-bar-item w3-button w3-padding-large w3-hide-small" data-bind="attr: {href: url || '#', title: name}"><span data-bind="text: name">Menu Name</span></a>
+            <!-- /ko -->
+        </div>
+    </div>
+
+    <div id="pageMain">
+        <div class="w3-container  w3-padding-64 w3-left-align" style="max-width:800px" id="mainContent">
+            <h1>About</h1>
+            <p>
+                This is a demonstration of the a menu generated from a simple XML structure using the <code>navControl</code> library. Where a menu item points at <em>this</em> page using a bookmark 
+                notation at the end of teh query string it will further process content in the manner described below.
+
+            </p>
+            <p> There is more content below that needs to be scrolled to reach. The reason for the blank lines will become clear as you read the explanation for the processing
+            that takes place with a hash tag document locations .....</p>
+            <div style="height:1200px;background-color:#D0D0D0">
+                ...scroll past this
+            </div>
+            <section>
+                <header>
+                    <h2>
+                        <a name="section1">Processing Bookmarks</a>
+                    </h2>
+                </header>
+                <p>If the document contains a named anchor tage (i.e. a bookmark) like</p>
+                <code class="w3-code htmlHigh">&lt;a name=&quot;somename&quot;&gt;...</code>
+
+                <p> and the bookmark contains content then nothing will happen. The browser will be left to do what browsers do, in this case load the page and scroll the content marked into view (if necessary!) 
+                </p>
+                <p>If the bookmark exists, but is empty, then the navControl library will attempt to find content. 
+                It does this by looking at the name of the bookmark (everything after the # on the url) 
+                and then atempts to load content from a sub-folder called "./content"</p>
+
+                <p>The file name to be searched for is <code>[[name]].html</code></p>
+
+                <p>If the file is found an attempt to load its contents using the jQuery load method (see <a href="http://api.jquery.com/load/">jQuery documentation</a>)</p>
+                <code class="w3-code jsHigh"><pre>
+                    var sBookmarkSelector = "a[name='" + sBookmark + "']";
+                    var urlContent = "content/" + sBookmark + ".html";
+                    var tagBookmark = $(sBookmarkSelector).get(0);
+                    ...
+                    $.ajax(urlContent, {
+                    success: function (data, textStatus, jqXHR) {
+                    //assume that the data is valid HTML
+                    tagBookmark.innerHTML = data;
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                    console.log("Failure to load requested content from " + urlContent);
+                    }
+                    })
+                </pre></code>
+            </section>
+
+            <section>
+                <h2>Section 2</h2>
+                <p>Before the empty bookmark</p>
+                <a name="section2" ></a>
+                <p>After the empty bookmark</p>
+                <a href="#section2">Read More - clicking this loads content into the empt bookmark above...</a>
+            </section>
+                
+        </div>
+
+
+
+    </div>
+</body>
+</html>
