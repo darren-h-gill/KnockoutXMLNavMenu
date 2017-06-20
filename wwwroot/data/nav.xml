@@ -16,6 +16,11 @@
     <menuitem>
       <name>Help</name>
       <menuitem>
+        <name>Popup Terms n Conditions</name>
+        <url>content/tnc.html</url>
+        <popup>true</popup>
+      </menuitem>
+      <menuitem>
         <name>About</name>
         <url>index.html#helpAbout</url>
       </menuitem>

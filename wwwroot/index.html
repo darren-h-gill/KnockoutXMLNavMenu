@@ -32,26 +32,38 @@
 
     </script>
 
+    <script id="subMenuTemplateBROKE" type="text/html">
+        <!-- ko if: $data.items-->
+        <div class="w3-dropdown-hover">
+            <button class="w3-button" data-bind="text: name ">parent item name</button>
+            <div class="w3-dropdown-content w3-bar-block w3-card-4" data-bind="foreach: $data.items">
+                <!-- ko template: { name: 'subMenuTemplate', foreach: items } -->
+            </div>
+        </div>
+        <!-- /ko -->
+        <!-- ko ifnot: $data.items -->
+        <a class="w3-bar-item w3-button" data-bind="attr: {href: url || '#', title: name, target: target}"><span data-bind="text: name">Menu Name</span></a>
+        <!-- /ko -->
+    </script> 
+    <script id="subMenuTemplate" type="text/html">
+        <!-- ko if: $data.items-->
+        <div class="w3-dropdown-hover">
+            <button class="w3-button" data-bind="text:name">Dropdown Name</button>
+            <div class="w3-dropdown-content w3-bar-block w3-card-4" style="margin-left:2em" data-bind="template: { name: 'subMenuTemplate', foreach: items}">
+                
+            </div>
+        </div>
+        <!-- /ko -->
+        <!-- ko ifnot: $data.items-->
+        <a class="w3-bar-item w3-button w3-padding-large w3-hide-small" data-bind="attr: {href: url || '#', title: name, target: target}"><span data-bind="text: name">Menu Name</span></a>
+        <!-- /ko -->
+    </script>
 </head>
 <body>
-    <div id="topNav">
-        <div class=" w3-bar w3-black w3-card-2">
-            <!-- ko foreach:items -->
-            <!-- ko if: $data.items-->
-            <div class="w3-dropdown-hover">
-                <button class="w3-button" data-bind="text: name ">parent item name</button>
-                <div class="w3-dropdown-content w3-bar-block w3-card-4" data-bind="foreach: $data.items">
-                    <a class="w3-bar-item w3-button" data-bind="attr: {href: url || '#', title: name}, text:name"></a>
-                </div>
-            </div>
-            <!-- /ko -->
-            <!-- ko ifnot: $data.items -->
-            <a class="w3-bar-item w3-button" data-bind="attr: {href: url || '#', title: name}"><span data-bind="text: name">Menu Name</span></a>
-            <!-- /ko -->
-            <!-- /ko -->
-            <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="toggleNav()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
 
-        </div>
+    <div id="topNav">
+        <div class=" w3-bar w3-black w3-card-2" data-bind="template:{ name: 'subMenuTemplate', foreach: items }"></div>
+        <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="toggleNav()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
         <div id="navSmall" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
             <!-- ko foreach:items -->
             <a class="w3-bar-item w3-button w3-padding-large w3-hide-small" data-bind="attr: {href: url || '#', title: name}"><span data-bind="text: name">Menu Name</span></a>
@@ -60,11 +72,11 @@
     </div>
 
     <div id="pageMain">
-        <div class="w3-container  w3-padding-64 w3-left-align" style="max-width:800px" id="mainContent">
+        <div class="w3-container  w3-content w3-left-align"  id="mainContent">
             <h1>About</h1>
             <p>
                 This is a demonstration of the a menu generated from a simple XML structure using the <code>navControl</code> library. Where a menu item points at <em>this</em> page using a bookmark 
-                notation at the end of teh query string it will further process content in the manner described below.
+                notation at the end of the query string it will further process content in the manner described below.
 
             </p>
             <p> There is more content below that needs to be scrolled to reach. The reason for the blank lines will become clear as you read the explanation for the processing
