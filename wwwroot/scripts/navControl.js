@@ -92,7 +92,6 @@ NB: Pass the jQuery noConfilct into the $ parameter
       * @param { string | number } menuID (optional)
       * @param { function } cbHandler function(data){}
       * @param { function } cbError function(errorText){}
-      * @return {array<menuItem>}
     */
     navControl.buildMenu = function (url, menuID, cbReady, cbError) {
         console.log("buildMenu started");
@@ -111,10 +110,10 @@ NB: Pass the jQuery noConfilct into the $ parameter
 
                 if (tag.tagName === "menuitem") {
                     var newMenuItem = {//NB: Have to use the first filter to prevent descendant menuitem names and urls getting picked up
-                        name: $("name", tag).first().text(),
-                        url: $("url", tag).first().text(),
-                        target: $("target", tag).first().text(),
-                        popup: $("popup", tag).length ? true : false //existance of a popup tag indicates that a modal popup should be used
+                        name: $("> name", tag).text(),
+                        url: $("> url", tag).text(),
+                        target: $("> target", tag).text() || "_self",
+                        popup: $("> popup", tag).length ? true : false //existance of a popup tag indicates that a modal popup should be used
                     };
 
                     if (newMenuItem.popup) {
@@ -233,7 +232,8 @@ NB: Pass the jQuery noConfilct into the $ parameter
         sTemplate = sTemplate.replace(/\[\[popupPanelID\]\]/g, effectiveOptions.popupPanelID);
         sTemplate = sTemplate.replace(/\[\[popupPanelHeaderCSS\]\]/g, effectiveOptions.popupPanelHeaderCSS);
         sTemplate = sTemplate.replace(/\[\[popupPanelName\]\]/g, effectiveOptions.popupPanelName);
-        debugger
+
+
         var $content = $(sTemplate);
         $("body").append($content);
         //load the content from the url
@@ -249,14 +249,14 @@ NB: Pass the jQuery noConfilct into the $ parameter
         
 
     };
+    var _isSideNavOpen = false;
+    navControl.toggleSideNav = function () {
+        var sStyle = _isSideNavOpen ? "none" : "block";
+        _isSideNavOpen = !_isSideNavOpen;
 
-    navControl.openNav = function () {
-        document.getElementsByClassName("w3-sidenav")[0].style.display = "block";
-        document.getElementsByClassName("w3-overlay")[0].style.display = "block";
-    };
-    navControl.closeNav = function () {
-        document.getElementsByClassName("w3-sidenav")[0].style.display = "none";
-        document.getElementsByClassName("w3-overlay")[0].style.display = "none";
+        $(".w3-sidenav").css("display", sStyle);
+        $(".w3-overlay").css("display", sStyle);
+        
     };
 
 
@@ -265,14 +265,3 @@ NB: Pass the jQuery noConfilct into the $ parameter
 
 
 }(window.navControl = window.navControl || {}, jQuery));
-
-
-jQuery(window).ready(function () {
-
-    //load the Nav into an element with ID "topNav"
-    navControl.buildMenu("data/nav.xml", 1, function (oMenuRoot) {
-        window.oMenuRoot = oMenuRoot;
-        ko.applyBindings(oMenuRoot, document.getElementById("topNav"));
-    }, null);
-
-});

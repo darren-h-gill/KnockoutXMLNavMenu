@@ -1,6 +1,5 @@
 ﻿<!DOCTYPE html>
 <html>
-
 <head>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,60 +14,34 @@
     <script src="//ajax.aspnetcdn.com/ajax/knockout/knockout-3.4.2.js"></script>
     <script src="scripts/navControl.js"></script>
 
-    <script type="text/javascript">
-        function toggleNav() {
-            var $navSmall = $("#navSmall"); var sClass = "w3-show";
-            if ($navSmall.hasClass(sClass)) {
-                $navSmall.removeClass(sClass);
-            } else {
-                $navSmall.addClass(sClass);
-            }
-        }
-
-     
-
-
-        
-
-    </script>
-
-    <script id="subMenuTemplateBROKE" type="text/html">
-        <!-- ko if: $data.items-->
-        <div class="w3-dropdown-hover">
-            <button class="w3-button" data-bind="text: name ">parent item name</button>
-            <div class="w3-dropdown-content w3-bar-block w3-card-4" data-bind="foreach: $data.items">
-                <!-- ko template: { name: 'subMenuTemplate', foreach: items } -->
-            </div>
-        </div>
-        <!-- /ko -->
-        <!-- ko ifnot: $data.items -->
-        <a class="w3-bar-item w3-button" data-bind="attr: {href: url || '#', title: name, target: target}"><span data-bind="text: name">Menu Name</span></a>
-        <!-- /ko -->
-    </script> 
     <script id="subMenuTemplate" type="text/html">
         <!-- ko if: $data.items-->
         <div class="w3-dropdown-hover">
-            <button class="w3-button" data-bind="text:name">Dropdown Name</button>
-            <div class="w3-dropdown-content w3-bar-block w3-card-4" style="margin-left:2em" data-bind="template: { name: 'subMenuTemplate', foreach: items}">
-                
-            </div>
+            <button class="w3-button w3-bar-item w3-padding-large" data-bind="text:name">Dropdown Name</button>
+            <div class="w3-dropdown-content w3-bar-block w3-card-4" style="margin-left:2em" data-bind="template: { name: 'subMenuTemplate', foreach: items}"></div>
         </div>
         <!-- /ko -->
         <!-- ko ifnot: $data.items-->
         <a class="w3-bar-item w3-button w3-padding-large w3-hide-small" data-bind="attr: {href: url || '#', title: name, target: target}"><span data-bind="text: name">Menu Name</span></a>
         <!-- /ko -->
     </script>
+
+    <script type="text/javascript">
+        jQuery(window).ready(function () {
+
+            //load the Nav into an element with ID "topNav"
+            navControl.buildMenu("data/nav.xml", 1, function (oMenuRoot) {
+                ko.applyBindings(oMenuRoot, document.getElementById("topNav"));
+            }, null);
+
+        });
+    </script>
 </head>
 <body>
 
     <div id="topNav">
         <div class=" w3-bar w3-black w3-card-2" data-bind="template:{ name: 'subMenuTemplate', foreach: items }"></div>
-        <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="toggleNav()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-        <div id="navSmall" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
-            <!-- ko foreach:items -->
-            <a class="w3-bar-item w3-button w3-padding-large w3-hide-small" data-bind="attr: {href: url || '#', title: name}"><span data-bind="text: name">Menu Name</span></a>
-            <!-- /ko -->
-        </div>
+    
     </div>
 
     <div id="pageMain">
@@ -87,17 +60,19 @@
             <section>
                 <header>
                     <h2>
-                        <a name="section1">Processing Bookmarks</a>
+                        <a name="section1">Section 1 - Processing Bookmarks</a>
                     </h2>
                 </header>
-                <p>If the document contains a named anchor tage (i.e. a bookmark) like</p>
+                <p>If the document contains a named anchor tag (i.e. a bookmark) like</p>
                 <code class="w3-code htmlHigh">&lt;a name=&quot;somename&quot;&gt;...</code>
 
-                <p> and the bookmark contains content then nothing will happen. The browser will be left to do what browsers do, in this case load the page and scroll the content marked into view (if necessary!) 
+                <p> and the bookmark contains content then no code will run. The browser will be left to do what browsers do, in this case load the page and scroll the content marked into view (if necessary!) 
                 </p>
-                <p>If the bookmark exists, but is empty, then the navControl library will attempt to find content. 
-                It does this by looking at the name of the bookmark (everything after the # on the url) 
-                and then atempts to load content from a sub-folder called "./content"</p>
+                <p>If the bookmark exists, but it is empty, then the <code class="w3-code jsHigh">
+    navControl</code> library will attempt to find content.
+    It does this by looking at the name of the bookmark (everything after the # on the url)
+    and then atempts to load content from a sub-folder called "./content"
+</p>
 
                 <p>The file name to be searched for is <code>[[name]].html</code></p>
 
